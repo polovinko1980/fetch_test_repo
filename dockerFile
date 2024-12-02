@@ -1,0 +1,35 @@
+# To build
+# docker buildx build --platform linux/amd64 -t my_docker:develop.latest -f dockerFile .
+#
+# To start
+# docker run -d --name my_container my_docker:develop.latest
+
+
+# docker rmi my_docker:develop.latest
+
+# To run geolocator
+# docker exec my_container python geolocator.py "Madison, WI" "12345" "Chicago, IL" "10001"
+
+# To run tests
+# docker exec my_container pytest
+
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY tests /app/tests
+COPY requirements.txt /app
+COPY geolocator.py /app
+COPY conftest.py /app
+COPY entry_point.sh /app
+
+
+# Install any needed dependencies specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN chmod 777 /app -R
+
+
+# Default CMD should just run forever so we can readily launch with -d
+CMD ["tail", "-f", "/dev/null"]
