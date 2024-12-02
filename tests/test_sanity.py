@@ -32,8 +32,11 @@ def test_smoke(my_executor):
 
     assert response.get("running_time") < 5
 
+
     # skipping first 3 lines, they have metadata only
     results = response.get("output").split("\n")[3:]
+
+    assert len(results) == 4
 
     for result in results:
         location, geo_code = result.split(GeoLocatorProcessor.LOCATION_CODE_SEPARATOR)
@@ -102,3 +105,18 @@ def test_unknown_zip(my_executor):
     for result in results:
         location, geo_code = result.split(GeoLocatorProcessor.LOCATION_CODE_SEPARATOR)
         assert expected_results[location] == geo_code
+
+
+def test_empty_input(my_executor):
+
+    input_str = ''
+
+
+    response = my_executor.execute(
+        input_str=input_str
+    )
+
+    # skipping first 3 lines, they have metadata only
+    results = response.get("output").split("\n")[3:]
+
+    assert len(results) == 0
