@@ -19,6 +19,8 @@ To run application:
 ```
 python3 geolocator.py "Madison, WI" "12345" "Chicago, IL" "10001"
 
+ ./entry_point.sh "Madison, WI" "12345" "Chicago, IL" "10001"
+
 ```
 
 To run tests:
@@ -53,6 +55,10 @@ pytest -sv
 
 ```
 docker exec my_container python geolocator.py "Madison, WI" "12345" "Chicago, IL" "10001"
+
+docker exec my_container  ./entry_point.sh "Madison, WI" "12345" "Chicago, IL" "10001"
+
+
 ```
 
 Sample output:
