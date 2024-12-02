@@ -25,25 +25,40 @@ like process memory usage monitoring or CPU usage (future enhancement)
 
 import subprocess
 import time
-from typing import List
+from typing import Dict
 
 
 class MyExecutor:
 
     def __init__(
         self,
-        entry_point,
+        entry_point: str,
         timeout=60,  # reasonable timeout?
     ):
+        """
+        Initialize MyExecutor instance
+
+        Args:
+            entry_point (str): application/utility to invoke
+            timeout (int): max time to wait till application response
+
+        """
+
         self.entry_point = entry_point
         self.timeout = timeout
 
     def execute(
         self,
-        input_str,
-    ):
+        input_str: str,
+    ) -> Dict[str, str]:
         """
         Main method to call application and collect metrics
+
+        Args:
+            input_str (str): String of quoted locations as is, i.e. '"Madison, WI" "12345" "Chicago, IL" "10001"'
+
+        Returns:
+            (Dist): Dictionary with test metadata like stdout, stderr, response code, running time
 
         """
 
@@ -76,8 +91,6 @@ class MyExecutor:
         running_time = time.perf_counter() - starting_time
 
         response = {"input": input_str}
-
-        print(output)
 
         if output:
             response["output"] = output.strip()
