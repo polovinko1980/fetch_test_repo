@@ -1,34 +1,31 @@
-#!/usr/local/bin/python
-
-"""
-Python wrapper on subprocess to interact with geolocator utility
-
-It will take input,
-execute subprocess command,
-wait for process completion
-and keep some test metadata:
-
-- response code
-- raw stderr stream
-- raw output str
-- execution time
-
-
-Wrapper should also be non-blocking and should
-be terminated if it can not get response from
-subprocess in the reasonable time (60s)
-
-We can extend wrapper to add other non-functional characteristics
-like process memory usage monitoring or CPU usage (future enhancement)
-
-"""
-
 import subprocess
 import time
 from typing import Dict
 
 
 class MyExecutor:
+    """
+    Python wrapper on subprocess to interact with geolocator utility
+
+    It will take input,
+    execute subprocess command,
+    wait for process completion
+    and keep some test metadata:
+
+    - response code
+    - raw stderr stream
+    - raw output str
+    - execution time
+
+
+    Wrapper should also be non-blocking and should
+    be terminated if it can not get response from
+    subprocess in the reasonable time (60s)
+
+    We can extend wrapper to add other non-functional characteristics
+    like process memory usage monitoring or CPU usage (future enhancement)
+
+    """
 
     def __init__(
         self,
