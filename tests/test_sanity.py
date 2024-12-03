@@ -2,10 +2,11 @@
 Test module to run sanity tests
 to make sure basic functionality is working:
 
-Input is a basic sanity example from spec,
-basic validation and non-functional attributes like
+ - happy path response with valid output,
+ success response code, reasonable running time
 
-running time, stderr and response code
+- corner cases:
+invalid zip, invalid location, empty location, unknown zip
 
 """
 from geolocator import GeoLocatorProcessor
