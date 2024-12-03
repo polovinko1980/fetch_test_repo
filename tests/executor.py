@@ -33,7 +33,7 @@ class MyExecutor:
     def __init__(
         self,
         entry_point: str,
-        timeout=60,  # reasonable timeout?
+        timeout: int = 60,  # reasonable timeout?
     ):
         """
         Initialize MyExecutor instance
@@ -58,7 +58,7 @@ class MyExecutor:
             input_str (str): String of quoted locations as is, i.e. '"Madison, WI" "12345" "Chicago, IL" "10001"'
 
         Returns:
-            (Dist): Dictionary with test metadata like stdout, stderr, response code, running time
+            Dict[str, str]: Dictionary with test metadata like stdout, stderr, response code, running time
 
         """
 
@@ -74,8 +74,6 @@ class MyExecutor:
             shell=True,
         )
 
-        output, errors = None, None
-
         starting_time = time.perf_counter()
 
         # not allowing infinite time run
@@ -83,23 +81,23 @@ class MyExecutor:
             output, errors = process.communicate(
                 timeout=self.timeout,
             )
+            response_code = process.returncode
 
         except subprocess.TimeoutExpired:
             process.kill()
             terminated = True
+            output, errors = None, None
+            response_code = -1  # Indicate that the process was terminated due to timeout
 
         running_time = time.perf_counter() - starting_time
 
-        response = {"input": input_str}
-
-        if output:
-            response["output"] = output.strip()
-
-        response = response | {
+        response = {
+            "input": input_str,
+            "output": output.strip() if output else None,
             "terminated": terminated,
             "running_time": running_time,
-            "response_code": process.returncode,
-            "errors": errors,
+            "response_code": response_code,
+            "errors": errors.strip() if errors else None,
         }
 
         return response

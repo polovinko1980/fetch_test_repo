@@ -28,7 +28,7 @@ def test_smoke(my_executor):
 
     assert response.get("response_code") == 0
 
-    assert response.get("errors") == ""
+    assert response.get("errors") is None
 
     assert response.get("running_time") < 5
 
