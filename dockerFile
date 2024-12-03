@@ -4,7 +4,7 @@
 # To start
 # docker run -d --name my_container my_docker:develop.latest
 
-
+# To remove image
 # docker rmi my_docker:develop.latest
 
 # To run geolocator
