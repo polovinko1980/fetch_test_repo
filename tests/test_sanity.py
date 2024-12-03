@@ -85,6 +85,26 @@ def test_invalid_location(my_executor):
         assert expected_results[location] == geo_code
 
 
+def test_invalid_state(my_executor):
+
+    input_str = '"Madison, Wi"'
+
+    expected_results = {
+        "Madison, Wi": "unable to get geo code. Exception: Invalid location: Madison, Wi",
+    }
+
+    response = my_executor.execute(
+        input_str=input_str
+    )
+
+    # skipping first 3 lines, they have metadata only
+    results = response.get("output").split("\n")[3:]
+
+    for result in results:
+        location, geo_code = result.split(GeoLocatorProcessor.LOCATION_CODE_SEPARATOR)
+        assert expected_results[location] == geo_code
+
+
 def test_unknown_zip(my_executor):
 
     input_str = '"99999"'
