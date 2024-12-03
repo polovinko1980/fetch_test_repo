@@ -231,7 +231,8 @@ class LocationValidator:
 
     def is_valid_zip(self) -> Match[str] | None:
         """
-        Considering location is valid zip if it is a single word amd passing zip regex
+        Considering location is valid zip
+        if it is a single word and passing US zip regex
 
         """
 
@@ -245,8 +246,8 @@ class LocationValidator:
 
     def is_valid_direct_location(self) -> Match[str] | None:
         """
-        Considering location is valid if it is two comma separated words
-        and second word is valid state regex
+        Considering direct location is valid if it is two comma separated words and
+        second word is passing state regex.
 
         """
 
@@ -258,7 +259,9 @@ class LocationValidator:
             return None
 
         # checking if state is valid
-        state_pattern = re.compile(r"[^,]*[A-Z]{2}")
+        state_pattern = re.compile(
+            r'\b(?:AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)\b'
+        )
 
         return state_pattern.match(all_words[1])
 
